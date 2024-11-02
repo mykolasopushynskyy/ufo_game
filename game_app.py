@@ -1,3 +1,5 @@
+from pyglet import model
+
 import engine.animated_sprite
 import pygame
 import constants
@@ -120,6 +122,10 @@ if __name__ == "__main__":
     all_sprites.add(crab)
     print("Crab added")
 
+    # Create cursor
+    cursor = utils.load_image('resources/cursors/aim.png')
+    pygame.mouse.set_visible(False)
+
     running = True
     while running:
         for event in pygame.event.get():
@@ -136,6 +142,10 @@ if __name__ == "__main__":
 
         # Draw everything on the screen
         all_sprites.draw(screen)
+
+        # draw cursor
+        mx, my = pygame.mouse.get_pos()
+        screen.blit(cursor, (mx - cursor.get_width() / 2, my - cursor.get_height() / 2))
 
         # Calculate and print the fps
         fps = clock.get_fps()
