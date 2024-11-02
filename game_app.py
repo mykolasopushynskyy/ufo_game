@@ -1,37 +1,10 @@
 import engine.animated_sprite
 import pygame
 import constants
-from constants import WIDTH, HEIGHT
 from engine import utils
 from engine.animated_sprite import AnimationSequence
-from ufo import UfoAnimation, Ufo
-
-
-class BackgroundAnimation(engine.animated_sprite.Animation):
-    def __init__(self):
-        super().__init__(
-            'idle', 'idle',
-            [
-                AnimationSequence('idle', 1.0, [
-                    utils.load_image('resources/back_pixel/back_iteration_1.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_2.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_3.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_4.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_5.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_6.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_7.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_8.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_9.png', (WIDTH, HEIGHT)),
-                    utils.load_image('resources/back_pixel/back_iteration_10.png', (WIDTH, HEIGHT)),
-                ])
-            ]
-        )
-
-class AnimatedBackGroud(engine.animated_sprite.AnimatedSprite):
-    def __init__(self):
-        super().__init__(BackgroundAnimation())
-        self.rect.topleft = (0, 0)
-
+from game.background import AnimatedBackGround
+from game.ufo import Ufo
 
 class CrabAnimation(engine.animated_sprite.Animation):
     def __init__(self):
@@ -117,7 +90,7 @@ if __name__ == "__main__":
     ufo_sprites = pygame.sprite.Group()
 
     # Create the crab and add it to all_sprites group
-    all_sprites.add(AnimatedBackGroud())
+    all_sprites.add(AnimatedBackGround())
     print("Background added")
 
     # Generate ufo

@@ -1,8 +1,8 @@
+import os
+
 # screen size
 WIDTH = 1440
 HEIGHT = 900
-
-# CRAB_SIZE = 0.15
-OBSTACLE_SIZE = 0.1
-OBSTACLE_SIZE_RND = 0.33
 FRAME_RATE = 240
+
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
