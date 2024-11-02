@@ -1,8 +1,8 @@
 import engine.animated_sprite
 import pygame
 import constants
-import utils
 from constants import WIDTH, HEIGHT
+from engine import utils
 from engine.animated_sprite import AnimationSequence
 from ufo import UfoAnimation, Ufo
 

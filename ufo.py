@@ -2,9 +2,9 @@ import math
 
 import random
 import engine
-import utils
 
 import constants
+from engine import utils
 from engine.animated_sprite import AnimationSequence
 
 class UfoAnimation(engine.animated_sprite.Animation):

@@ -1,8 +1,12 @@
 import pygame
 import random
 
-def load_image(image_file: str):
-    return pygame.image.load(image_file).convert_alpha()
+def load_image(image_file: str, scale_factor: tuple = None):
+    loaded_image = pygame.image.load(image_file).convert_alpha()
+    if scale_factor is None:
+        return loaded_image
+
+    return pygame.transform.scale(loaded_image, scale_factor)
 
 def scale_image_by(image_to_scale, scale_factor: tuple, flip_rnd=False):
     factor, random_factor = scale_factor
