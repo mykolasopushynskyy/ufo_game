@@ -43,11 +43,16 @@ class Animation:
         if not all(isinstance(seq, AnimationSequence) for seq in sequences):
             raise TypeError("each of 'sequences' has to be AnimationSequence")
 
-
         # check for duplicate animation names
         self._anim_seq_names = [seq.name for seq in sequences]
         if len(self._anim_seq_names) != len(set(self._anim_seq_names)):
-            dup_names = set([dup for dup in self._anim_seq_names if self._anim_seq_names.count(dup) > 1])
+            dup_names = set(
+                [
+                    dup
+                    for dup in self._anim_seq_names
+                    if self._anim_seq_names.count(dup) > 1
+                ]
+            )
             raise ValueError(f"Duplicate animation names: {dup_names}")
 
         # initialize params
@@ -57,7 +62,9 @@ class Animation:
         self.next_animation = a_next
         self.index = 0
         self.index_max = len(self.images[self.animation].sequence)
-        self.frame = random.uniform(0, int(FRAME_RATE * self.images[self.animation].time))
+        self.frame = random.uniform(
+            0, int(FRAME_RATE * self.images[self.animation].time)
+        )
 
     def update(self):
         self.frame = self.frame + 1
@@ -66,23 +73,34 @@ class Animation:
             self.state(self.next_animation, self.next_animation)
         else:
             # next animation frame
-            self.index = int((self.frame / (constants.FRAME_RATE * self.images[self.animation].time) * (self.index_max - 1)))
+            self.index = int(
+                (
+                    self.frame
+                    / (constants.FRAME_RATE * self.images[self.animation].time)
+                    * (self.index_max - 1)
+                )
+            )
 
     def get_image(self):
         return self.images[self.animation].sequence[self.index]
 
     def state(self, animation: str, next_animation: str):
         if animation not in self._anim_seq_names:
-            raise ValueError(f"State {animation} is not in animations: {self._anim_seq_names}")
+            raise ValueError(
+                f"State {animation} is not in animations: {self._anim_seq_names}"
+            )
 
         if next_animation not in self._anim_seq_names:
-            raise ValueError(f"Next state {next_animation} is not in animations: {self._anim_seq_names}")
+            raise ValueError(
+                f"Next state {next_animation} is not in animations: {self._anim_seq_names}"
+            )
 
         self.animation = animation
         self.next_animation = next_animation
         self.index = 0
         self.index_max = len(self.images[self.animation].sequence)
         self.frame = 0
+
 
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, animation: Animation):
@@ -97,4 +115,3 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def animation(self, animation: str, switch_to: str):
         self._animation.state(animation, switch_to)
-

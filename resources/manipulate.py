@@ -3,6 +3,7 @@ import os
 import random
 from PIL import Image
 
+
 def convert_to_pixel_art(input_path, output_path, pixel_size=10, colors=64):
     """
     Converts an image to pixel art by resizing, reducing colors, and saving the result.
@@ -19,21 +20,23 @@ def convert_to_pixel_art(input_path, output_path, pixel_size=10, colors=64):
     # Resize the image down to create the pixelation effect
     img_small = img.resize(
         (img.width // pixel_size, img.height // pixel_size),
-        resample=Image.Resampling.NEAREST
+        resample=Image.Resampling.NEAREST,
     )
 
     # Resize it back up to the original size to scale up the pixel blocks
     img_pixelated = img_small.resize(
-        (img.width, img.height),
-        resample=Image.Resampling.NEAREST
+        (img.width, img.height), resample=Image.Resampling.NEAREST
     )
 
     # Reduce the number of colors to create a more stylized, "pixel art" look
-    img_pixelated = img_pixelated.convert("P", palette=Image.Palette.ADAPTIVE, colors=colors)
+    img_pixelated = img_pixelated.convert(
+        "P", palette=Image.Palette.ADAPTIVE, colors=colors
+    )
 
     # Save the pixelated image
     img_pixelated.save(output_path)
     print(f"Pixel art saved to {output_path}")
+
 
 def convert_folder_to_pixel_art(input_path, output_path, pixel_size=2, colors=64):
     """
@@ -65,7 +68,10 @@ def convert_folder_to_pixel_art(input_path, output_path, pixel_size=2, colors=64
 
                 convert_to_pixel_art(input_path, output_path, pixel_size, colors)
 
-def pixel_manipulate(input_path, output_base_path, manipulation_function, repeat_rate=1):
+
+def pixel_manipulate(
+    input_path, output_base_path, manipulation_function, repeat_rate=1
+):
     """
     Opens an image, applies pixel-wise manipulation multiple times, and saves each result.
 
@@ -78,7 +84,9 @@ def pixel_manipulate(input_path, output_base_path, manipulation_function, repeat
     """
 
     # Ensure the output directory exists
-    output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), output_base_path)
+    output_dir = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), output_base_path
+    )
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
 
@@ -102,6 +110,7 @@ def pixel_manipulate(input_path, output_base_path, manipulation_function, repeat
         img_copy.save(output_path)
         print(f"Saved iteration {i} as {output_path}")
 
+
 # Example manipulation function: Brightness adjustment
 def rand_changes(pixel, factor=0.05):
     r, g, b = pixel
@@ -109,8 +118,9 @@ def rand_changes(pixel, factor=0.05):
     return (
         min(int(r + r * u * factor), 255),
         min(int(g + g * u * factor), 255),
-        min(int(b + b * u * factor), 255)
+        min(int(b + b * u * factor), 255),
     )
+
 
 if __name__ == "__main__":
     # Example usage
@@ -119,7 +129,7 @@ if __name__ == "__main__":
         "design_3_ufo_attack.png",
         "back_pixel",
         lambda pixel: rand_changes(pixel, factor=0.08),
-        repeat_rate=10
+        repeat_rate=10,
     )
 
     # convert_folder_to_pixel_art('back_pixel_tmp', 'back_pixel', 1, 256)
