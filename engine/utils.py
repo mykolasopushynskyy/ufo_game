@@ -4,10 +4,14 @@ import pygame
 import random
 import constants
 
+def read_file_as_string(file_path):
+    file_path = os.path.join(constants.PROJECT_PATH, file_path)
+    with open(file_path, 'r') as file:
+        content = file.read()
+    return content
 
 def load_image(image_file: str, scale_factor: tuple = None):
     image_file = os.path.join(constants.PROJECT_PATH, image_file)
-
     loaded_image = pygame.image.load(image_file).convert_alpha()
     if scale_factor is None:
         return loaded_image

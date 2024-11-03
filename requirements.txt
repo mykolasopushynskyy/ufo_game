@@ -31,3 +31,7 @@ pyparsing~=3.2.0
 cycler~=0.12.1
 kiwisolver~=1.4.7
 CairoSVG~=2.7.1
+click~=8.1.7
+MarkupSafe~=2.1.5
+pyglet~=2.0.16
+moderngl~=5.12.0

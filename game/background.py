@@ -56,3 +56,6 @@ class AnimatedBackGround(engine.animated_sprite.AnimatedSprite):
     def __init__(self):
         super().__init__(BackgroundAnimation())
         self.rect.topleft = (0, 0)
+
+    def update(self):
+        pass

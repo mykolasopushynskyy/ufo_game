@@ -33,6 +33,21 @@ class UfoAnimation(engine.animated_sprite.Animation):
             ],
         )
 
+class UfoNewAnimation(engine.animated_sprite.Animation):
+    def __init__(self):
+        super().__init__(
+            "idle",
+            "idle",
+            [
+                AnimationSequence(
+                    "idle",
+                    1.0,
+                    [
+                        utils.load_image("resources/ufo/ufo_new.png"),
+                    ],
+                )
+            ],
+        )
 
 class UfoTrajectoryAroundCity:
     def __init__(self):
@@ -65,7 +80,7 @@ class UfoTrajectoryAroundCity:
 
 class Ufo(engine.animated_sprite.AnimatedSprite):
     def __init__(self):
-        super().__init__(UfoAnimation())
+        super().__init__(UfoNewAnimation())
 
         self.trajectory = UfoTrajectoryAroundCity()
         self.rect = self.image.get_rect()
