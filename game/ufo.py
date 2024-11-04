@@ -60,7 +60,7 @@ class UfoTrajectoryAroundCity:
         self.y = random.uniform(0, constants.HEIGHT * 0.40) + 80
         self.l = random.uniform(50, 100)
         self.a = self.l / 2
-        self.x_mod = -random.uniform(1, 5)
+        self.x_mod = -random.uniform(1, 4)
         self.y_mod = math.sin(self.x / self.l) * self.a
 
     def get_x(self):
@@ -78,6 +78,7 @@ class Ufo(engine.animated_sprite.AnimatedSprite):
         self.rect = self.image.get_rect()
         self.rect.x = self.trajectory.get_x()
         self.rect.y = self.trajectory.get_y()
+        self.is_hit = False
 
     def update(self):
         super().update()
@@ -91,10 +92,13 @@ class Ufo(engine.animated_sprite.AnimatedSprite):
 
     def hit(self):
         super().animation("hit", lock_animation=True, callback=lambda: self.reset())
-        self.trajectory.x_mod = -random.uniform(0.1, 1.0)
+        if not self.is_hit:
+            self.trajectory.x_mod = self.trajectory.x_mod / 2
+            self.is_hit = True
 
     def reset(self):
         self.trajectory.init()
+        self.is_hit = False
         super().animation("idle", "idle")
         self.rect = self.image.get_rect()
         self.rect.x = self.trajectory.get_x()

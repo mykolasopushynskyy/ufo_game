@@ -6,6 +6,7 @@ import moderngl
 
 from engine import assets
 from engine.cursors import GameCursors
+from game.air_defence import AirDefence
 from game.background import AnimatedBackGround
 from game.crab import Crab
 from game.ufo import Ufo
@@ -33,13 +34,11 @@ QUAD_BUFFER = array(
     ],
 )
 
-VERT_SHADER_PATH = "engine/shaders/vert_shader.glsl"
-FRAG_SHADER_PATH = "engine/shaders/frag_shader.glsl"
-
 if __name__ == "__main__":
     # Initialize Pygame
     pygame.init()
-    pygame.display.set_caption("UFO Attack")
+    pygame.mixer.init()
+    pygame.display.set_caption("Атака НЛО")
 
     # Set up the screen
     pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
@@ -56,8 +55,8 @@ if __name__ == "__main__":
 
     # Use OpenGL
     ctx = moderngl.create_context()
-    vert_shader = assets.read_file_as_string(VERT_SHADER_PATH)
-    frag_shader = assets.read_file_as_string(FRAG_SHADER_PATH)
+    vert_shader = assets.read_file_as_string(constants.VERT_SHADER_PATH)
+    frag_shader = assets.read_file_as_string(constants.FRAG_SHADER_PATH)
     program = ctx.program(vertex_shader=vert_shader, fragment_shader=frag_shader)
     quad_buffer = ctx.buffer(data=QUAD_BUFFER)
     render_object = ctx.vertex_array(
@@ -77,7 +76,8 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     # Font for displaying FPS
-    font = pygame.font.Font(None, 36)
+    debug_font = pygame.font.Font(None, 36)
+    game_font = pygame.font.SysFont(None, 36)
 
     # Create sprite groups
     all_sprites = pygame.sprite.Group()
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     print("Background added")
 
     # Generate ufo
-    for i in range(10):
+    for i in range(50):
         random_ufo = Ufo()
         all_sprites.add(random_ufo)
         ufo_sprites.add(random_ufo)
@@ -98,11 +98,14 @@ if __name__ == "__main__":
     all_sprites.add(Crab())
     print("Crab added")
 
+    # Air defence
+    air_defence = AirDefence()
+    print("Air defence added")
+
     # Create cursor
     cursors = GameCursors()
     pygame.mouse.set_visible(False)
 
-    mouse_pressed = False
     running = True
     frame_idx = 0
     while running:
@@ -125,44 +128,39 @@ if __name__ == "__main__":
         # Draw everything on the screen
         all_sprites.draw(display)
 
-        # draw cursor
-        # air defence cords 725, 655
-        mx, my = pygame.mouse.get_pos()
-        cur_image, cx, cy = cursors.get("aim")
-        display.blit(cur_image, (mx + cx, my + cy))
-        mouse = font.render(f"Mouse: {mx}, {my}", True, (50, 200, 50))
-        display.blit(mouse, (10, 35))
-
-        # Calculate and print the fps
-        fps = clock.get_fps()
-        fps_text = font.render(f"FPS: {fps:.2f}", True, (50, 200, 50))
-        display.blit(fps_text, (10, 10))
-
         # get all events
         events = pygame.event.get()
         for event in events:
             if event.type == pygame.QUIT:
                 running = False
 
-            # handle MOUSEBUTTONUP
-            if event.type == pygame.MOUSEBUTTONUP:
-                mouse_pressed = False
+        mx, my = pygame.mouse.get_pos()
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_pressed = True
+        # air_defence
+        is_shooting = air_defence.update(display, events, mx, my)
 
-        if mouse_pressed:
-            pos = pygame.mouse.get_pos()
-            pygame.draw.line(display, (234, 100, 44), (725, 655), (mx, my))
+        # get a list of all sprites that are under the mouse cursor
+        ufos = [
+            ufo
+            for ufo in ufo_sprites
+            if not ufo.is_hit and is_shooting and ufo.rect.collidepoint((mx, my))
+        ]
+        for ufo in ufos:
+            ufo.hit()
 
-            # get a list of all sprites that are under the mouse cursor
-            ufos = [ufo for ufo in ufo_sprites if ufo.rect.collidepoint(pos)]
-            for ufo in ufos:
-                ufo.hit()
-            if len(ufos) > 0:
-                print(f"Direct hip: {len(ufos)} desintegrated")
-            else:
-                print("Miss")
+        if len(ufos) > 0:
+            print(f"Direct hip: {len(ufos)} desintegrated")
+
+        # draw cursor
+        cur_image, cx, cy = cursors.get("aim")
+        display.blit(cur_image, (mx + cx, my + cy))
+        mouse = debug_font.render(f"Mouse: {mx}, {my}", True, (50, 200, 50))
+        display.blit(mouse, (10, 35))
+
+        # Calculate and print the fps
+        fps = clock.get_fps()
+        fps_text = debug_font.render(f"FPS: {fps:.2f}", True, (50, 200, 50))
+        display.blit(fps_text, (10, 10))
 
         # Flip the display
         pygame.display.flip()
