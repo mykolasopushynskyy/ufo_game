@@ -70,7 +70,9 @@ class Animation:
         self.frame = self.frame + 1
 
         if (self.index + 1) == self.index_max:
-            self.state(self.next_animation, self.next_animation)
+            if self.next_animation is not None:
+                self.state(self.next_animation, self.next_animation)
+            return True
         else:
             # next animation frame
             self.index = int(
@@ -80,6 +82,7 @@ class Animation:
                     * (self.index_max - 1)
                 )
             )
+            return False
 
     def get_image(self):
         return self.images[self.animation].sequence[self.index]
@@ -90,7 +93,9 @@ class Animation:
                 f"State {animation} is not in animations: {self._anim_seq_names}"
             )
 
-        if next_animation not in self._anim_seq_names:
+        if (next_animation is not None) and (
+            next_animation not in self._anim_seq_names
+        ):
             raise ValueError(
                 f"Next state {next_animation} is not in animations: {self._anim_seq_names}"
             )
@@ -108,10 +113,27 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self._animation = animation
         self.image = self._animation.get_image()
         self.rect = self.image.get_rect()
+        self.callback = None
+        self.lock_animation = False
 
     def update(self):
-        self._animation.update()
+        is_end = self._animation.update()
         self.image = self._animation.get_image()
 
-    def animation(self, animation: str, switch_to: str):
-        self._animation.state(animation, switch_to)
+        if is_end:
+            self.lock_animation = False
+
+        if self.callback is not None and is_end:
+            self.callback()
+
+    def animation(
+        self,
+        animation: str,
+        lock_animation: bool = False,
+        switch_to: str = None,
+        callback: callable = None,
+    ):
+        if not self.lock_animation:
+            self._animation.state(animation, switch_to)
+            self.callback = callback
+            self.lock_animation = lock_animation

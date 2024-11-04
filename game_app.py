@@ -102,12 +102,10 @@ if __name__ == "__main__":
     cursors = GameCursors()
     pygame.mouse.set_visible(False)
 
+    mouse_pressed = False
     running = True
     frame_idx = 0
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
 
         frame_tex = surf_to_texture(display)
         frame_tex.use(0)
@@ -139,6 +137,32 @@ if __name__ == "__main__":
         fps = clock.get_fps()
         fps_text = font.render(f"FPS: {fps:.2f}", True, (50, 200, 50))
         display.blit(fps_text, (10, 10))
+
+        # get all events
+        events = pygame.event.get()
+        for event in events:
+            if event.type == pygame.QUIT:
+                running = False
+
+            # handle MOUSEBUTTONUP
+            if event.type == pygame.MOUSEBUTTONUP:
+                mouse_pressed = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pressed = True
+
+        if mouse_pressed:
+            pos = pygame.mouse.get_pos()
+            pygame.draw.line(display, (234, 100, 44), (725, 655), (mx, my))
+
+            # get a list of all sprites that are under the mouse cursor
+            ufos = [ufo for ufo in ufo_sprites if ufo.rect.collidepoint(pos)]
+            for ufo in ufos:
+                ufo.hit()
+            if len(ufos) > 0:
+                print(f"Direct hip: {len(ufos)} desintegrated")
+            else:
+                print("Miss")
 
         # Flip the display
         pygame.display.flip()

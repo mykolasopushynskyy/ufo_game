@@ -18,35 +18,25 @@ class UfoAnimation(engine.animated_sprite.Animation):
                     "idle",
                     1.0,
                     [
-                        assets.load_image("resources/ufo/pixel/ufo_0-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_1-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_2-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_3-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_4-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_5-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_6-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_7-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_8-pixel.png"),
-                        assets.load_image("resources/ufo/pixel/ufo_9-pixel.png"),
-                    ],
-                )
-            ],
-        )
-
-
-class UfoNewAnimation(engine.animated_sprite.Animation):
-    def __init__(self):
-        super().__init__(
-            "idle",
-            "idle",
-            [
-                AnimationSequence(
-                    "idle",
-                    1.0,
-                    [
                         assets.load_image("resources/ufo/ufo_new.png"),
                     ],
-                )
+                ),
+                AnimationSequence(
+                    "hit",
+                    1.0,
+                    [
+                        assets.load_image("resources/ufo/ufo_hit_1.png"),
+                        assets.load_image("resources/ufo/ufo_hit_2.png"),
+                        assets.load_image("resources/ufo/ufo_hit_3.png"),
+                        assets.load_image("resources/ufo/ufo_hit_4.png"),
+                        assets.load_image("resources/ufo/ufo_hit_5.png"),
+                        assets.load_image("resources/ufo/ufo_hit_6.png"),
+                        assets.load_image("resources/ufo/ufo_hit_7.png"),
+                        assets.load_image("resources/ufo/ufo_hit_8.png"),
+                        assets.load_image("resources/ufo/ufo_hit_9.png"),
+                        assets.load_image("resources/ufo/ufo_hit_10.png"),
+                    ],
+                ),
             ],
         )
 
@@ -54,10 +44,10 @@ class UfoNewAnimation(engine.animated_sprite.Animation):
 class UfoTrajectoryAroundCity:
     def __init__(self):
         self.l = random.uniform(50, 100)
-        self.a = self.l / 5
+        self.a = self.l / 2
         self.x = constants.WIDTH + random.uniform(0, constants.WIDTH)
         self.y = random.uniform(0, constants.HEIGHT * 0.40) + 80
-        self.x_mod = -random.uniform(1, 10)
+        self.x_mod = -random.uniform(1, 5)
         self.y_mod = math.sin(self.x / self.l) * self.a
 
     def update(self):
@@ -69,8 +59,8 @@ class UfoTrajectoryAroundCity:
         self.x = constants.WIDTH + random.uniform(0, constants.WIDTH)
         self.y = random.uniform(0, constants.HEIGHT * 0.40) + 80
         self.l = random.uniform(50, 100)
-        self.a = self.l / 5
-        self.x_mod = -random.uniform(1, 10)
+        self.a = self.l / 2
+        self.x_mod = -random.uniform(1, 5)
         self.y_mod = math.sin(self.x / self.l) * self.a
 
     def get_x(self):
@@ -82,7 +72,7 @@ class UfoTrajectoryAroundCity:
 
 class Ufo(engine.animated_sprite.AnimatedSprite):
     def __init__(self):
-        super().__init__(UfoNewAnimation())
+        super().__init__(UfoAnimation())
 
         self.trajectory = UfoTrajectoryAroundCity()
         self.rect = self.image.get_rect()
@@ -97,7 +87,14 @@ class Ufo(engine.animated_sprite.AnimatedSprite):
         self.rect.y = self.trajectory.get_y()
 
         if self.rect.x < -self.rect.width:
-            self.trajectory.init()
-            self.rect = self.image.get_rect()
-            self.rect.x = self.trajectory.get_x()
-            self.rect.y = self.trajectory.get_y()
+            self.reset()
+
+    def hit(self):
+        super().animation("hit", lock_animation=True, callback=lambda: self.reset())
+
+    def reset(self):
+        self.trajectory.init()
+        super().animation("idle", "idle")
+        self.rect = self.image.get_rect()
+        self.rect.x = self.trajectory.get_x()
+        self.rect.y = self.trajectory.get_y()
