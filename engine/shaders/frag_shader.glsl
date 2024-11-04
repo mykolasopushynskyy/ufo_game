@@ -48,7 +48,7 @@ void main() {
 
     float noise = noisy(rgb);
     float change = random_uniform(vec3(sample_pos, time)) * 2 - 1;
-    float amplitude = 0.10;
+    float amplitude = 0.075;
 
     f_color = vec4(min(rgb + change * amplitude * rgb , 255.0), 1.0);
 }

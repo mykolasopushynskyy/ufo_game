@@ -17,35 +17,8 @@ class BackgroundAnimation(engine.animated_sprite.Animation):
                     1.0,
                     [
                         utils.load_image(
-                            "resources/back_pixel/back_iteration_1.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_2.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_3.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_4.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_5.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_6.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_7.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_8.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_9.png", scale_factor
-                        ),
-                        utils.load_image(
-                            "resources/back_pixel/back_iteration_10.png", scale_factor
-                        ),
+                            "resources/background/background.png", scale_factor
+                        )
                     ],
                 )
             ],

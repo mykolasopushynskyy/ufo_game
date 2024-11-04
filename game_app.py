@@ -77,8 +77,7 @@ if __name__ == "__main__":
 
     # Create cursor
     cursors = GameCursors()
-    # pygame.mouse.set_visible(False)
-
+    pygame.mouse.set_visible(False)
 
     running = True
     frame_idx = 0
@@ -93,7 +92,7 @@ if __name__ == "__main__":
         program['time'] = int(
                 (
                     frame_idx
-                    / (constants.FRAME_RATE * 0.1)
+                    / (constants.FRAME_RATE / 12)
                 )
             )
         frame_idx += 1
@@ -112,7 +111,7 @@ if __name__ == "__main__":
 
         # draw cursor
         mx, my = pygame.mouse.get_pos()
-        cur_image, cx, cy = cursors.get('arrow')
+        cur_image, cx, cy = cursors.get('aim')
         display.blit(cur_image, (mx + cx, my + cy))
 
         # Calculate and print the fps

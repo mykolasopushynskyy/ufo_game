@@ -126,7 +126,7 @@ if __name__ == "__main__":
     # Example usage
 
     pixel_manipulate(
-        "design_3_ufo_attack.png",
+        "background/design_3_ufo_attack.png",
         "back_pixel",
         lambda pixel: rand_changes(pixel, factor=0.08),
         repeat_rate=10,
