@@ -88,7 +88,7 @@ if __name__ == "__main__":
     print("Background added")
 
     # Generate ufo
-    for i in range(50):
+    for i in range(constants.UFOS_NUMBER):
         random_ufo = Ufo()
         all_sprites.add(random_ufo)
         ufo_sprites.add(random_ufo)
@@ -108,6 +108,7 @@ if __name__ == "__main__":
 
     running = True
     frame_idx = 0
+    ufo_counter = 0
     while running:
 
         frame_tex = surf_to_texture(display)
@@ -119,11 +120,6 @@ if __name__ == "__main__":
 
         # Update the game objects
         all_sprites.update()
-
-        # # Check for collisions
-        # if pygame.sprite.spritecollide(crab, obstacles, False):
-        #     print("Game Over!")
-        #     # running = False
 
         # Draw everything on the screen
         all_sprites.draw(display)
@@ -140,27 +136,29 @@ if __name__ == "__main__":
         is_shooting = air_defence.update(display, events, mx, my)
 
         # get a list of all sprites that are under the mouse cursor
-        ufos = [
-            ufo
-            for ufo in ufo_sprites
-            if not ufo.is_hit and is_shooting and ufo.rect.collidepoint((mx, my))
-        ]
-        for ufo in ufos:
-            ufo.hit()
-
-        if len(ufos) > 0:
-            print(f"Direct hip: {len(ufos)} desintegrated")
+        ufos_shot = len(
+            [
+                ufo.hit()
+                for ufo in ufo_sprites
+                if not ufo.is_hit and is_shooting and ufo.rect.collidepoint((mx, my))
+            ]
+        )
+        ufo_counter += ufos_shot
 
         # draw cursor
         cur_image, cx, cy = cursors.get("aim")
         display.blit(cur_image, (mx + cx, my + cy))
-        mouse = debug_font.render(f"Mouse: {mx}, {my}", True, (50, 200, 50))
-        display.blit(mouse, (10, 35))
 
         # Calculate and print the fps
         fps = clock.get_fps()
+
+        # print information
+        mouse = game_font.render(f"Mouse: {mx}, {my}", True, (50, 200, 50))
+        display.blit(mouse, (10, 10))
         fps_text = debug_font.render(f"FPS: {fps:.2f}", True, (50, 200, 50))
-        display.blit(fps_text, (10, 10))
+        display.blit(fps_text, (10, 46))
+        mouse = debug_font.render(f"Збито НЛО: {ufo_counter}", True, (0xEA, 0xA1, 0x2C))
+        display.blit(mouse, (10, 82))
 
         # Flip the display
         pygame.display.flip()

@@ -1,4 +1,6 @@
 import math
+import random
+
 import pygame
 
 
@@ -77,7 +79,7 @@ class AirDefence:
                 surface,
                 self.beam_color,
                 (self.laser_x1, self.laser_y1),
-                (self.mx, self.my),
+                (self.mx + random.uniform(-2, 2), self.my + random.uniform(-2, 2)),
                 3,
             )
             return True
