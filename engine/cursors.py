@@ -1,11 +1,12 @@
-from engine import utils
+from engine import assets
+
 
 class GameCursors:
     def __init__(self):
         self.cursors = {
-            'arrow' : (utils.load_image('resources/cursors/arrow.png'), -1, -1),
-            'aim' : (utils.load_image('resources/cursors/aim.png'), -16, -16)
-         }
+            "arrow": (assets.load_image("resources/cursors/arrow.png"), -1, -1),
+            "aim": (assets.load_image("resources/cursors/aim.png"), -16, -16),
+        }
 
     def get(self, cursor: str):
         # check params type

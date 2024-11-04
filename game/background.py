@@ -1,7 +1,7 @@
 import constants
 import engine
 
-from engine import utils
+from engine import assets
 from engine.animated_sprite import AnimationSequence
 
 
@@ -16,7 +16,7 @@ class BackgroundAnimation(engine.animated_sprite.Animation):
                     "idle",
                     1.0,
                     [
-                        utils.load_image(
+                        assets.load_image(
                             "resources/background/background.png", scale_factor
                         )
                     ],

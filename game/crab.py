@@ -2,7 +2,7 @@ import pygame
 import constants
 import engine
 
-from engine import utils
+from engine import assets
 from engine.animated_sprite import AnimationSequence
 
 
@@ -16,28 +16,50 @@ class CrabAnimation(engine.animated_sprite.Animation):
                     "idle",
                     1.0,
                     [
-                        utils.load_image("resources/crab_idle_pixel/idle-1.png"),
-                        utils.load_image("resources/crab_idle_pixel/idle-2.png"),
-                        utils.load_image("resources/crab_idle_pixel/idle-3.png"),
-                        utils.load_image("resources/crab_idle_pixel/idle-4.png"),
-                        utils.load_image("resources/crab_idle_pixel/idle-5.png"),
+                        assets.load_image("resources/crab_idle_pixel/idle-1.png"),
+                        assets.load_image("resources/crab_idle_pixel/idle-2.png"),
+                        assets.load_image("resources/crab_idle_pixel/idle-3.png"),
+                        assets.load_image("resources/crab_idle_pixel/idle-4.png"),
+                        assets.load_image("resources/crab_idle_pixel/idle-5.png"),
                     ],
                 ),
                 AnimationSequence(
                     "jump",
                     0.25,
                     [
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000000.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000001.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000002.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000003.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000004.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000005.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000006.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000007.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000008.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000009.png"),
-                        utils.load_image("resources/crab_jump_pixel/ss-0000000010.png"),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000000.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000001.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000002.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000003.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000004.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000005.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000006.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000007.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000008.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000009.png"
+                        ),
+                        assets.load_image(
+                            "resources/crab_jump_pixel/ss-0000000010.png"
+                        ),
                     ],
                 ),
             ],

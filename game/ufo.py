@@ -4,7 +4,7 @@ import random
 import engine
 
 import constants
-from engine import utils
+from engine import assets
 from engine.animated_sprite import AnimationSequence
 
 
@@ -18,20 +18,21 @@ class UfoAnimation(engine.animated_sprite.Animation):
                     "idle",
                     1.0,
                     [
-                        utils.load_image("resources/ufo/pixel/ufo_0-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_1-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_2-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_3-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_4-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_5-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_6-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_7-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_8-pixel.png"),
-                        utils.load_image("resources/ufo/pixel/ufo_9-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_0-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_1-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_2-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_3-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_4-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_5-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_6-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_7-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_8-pixel.png"),
+                        assets.load_image("resources/ufo/pixel/ufo_9-pixel.png"),
                     ],
                 )
             ],
         )
+
 
 class UfoNewAnimation(engine.animated_sprite.Animation):
     def __init__(self):
@@ -43,11 +44,12 @@ class UfoNewAnimation(engine.animated_sprite.Animation):
                     "idle",
                     1.0,
                     [
-                        utils.load_image("resources/ufo/ufo_new.png"),
+                        assets.load_image("resources/ufo/ufo_new.png"),
                     ],
                 )
             ],
         )
+
 
 class UfoTrajectoryAroundCity:
     def __init__(self):
