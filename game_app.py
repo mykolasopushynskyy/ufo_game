@@ -133,7 +133,7 @@ if __name__ == "__main__":
         mx, my = pygame.mouse.get_pos()
 
         # air_defence
-        is_shooting = air_defence.update(display, events, mx, my)
+        is_shooting = air_defence.defend(display, events, mx, my)
 
         # get a list of all sprites that are under the mouse cursor
         ufos_shot = len(
