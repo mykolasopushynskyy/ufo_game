@@ -129,8 +129,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def animation(
         self,
         animation: str,
-        lock_animation: bool = False,
         switch_to: str = None,
+        lock_animation: bool = False,
         callback: callable = None,
     ):
         if not self.lock_animation:

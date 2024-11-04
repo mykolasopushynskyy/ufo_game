@@ -71,7 +71,7 @@ class Crab(engine.animated_sprite.AnimatedSprite):
         super().__init__(CrabAnimation())
 
         self.rect.topleft = (
-            (constants.WIDTH - self.rect.width) / 2,
+            (constants.WIDTH - self.rect.width) / 2 - 400,
             constants.HEIGHT - self.rect.height,
         )
         self.jump_power = -10
@@ -94,8 +94,8 @@ class Crab(engine.animated_sprite.AnimatedSprite):
 
         self.velocity.y += self.gravity
         self.rect.y += self.velocity.y
-        if self.rect.y > constants.HEIGHT - self.rect.height - 100:
-            self.rect.y = constants.HEIGHT - self.rect.height - 100
+        if self.rect.y > constants.HEIGHT - self.rect.height - 35:
+            self.rect.y = constants.HEIGHT - self.rect.height - 35
 
     def jump(self):
         self.velocity.y = self.jump_power

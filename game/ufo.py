@@ -23,7 +23,7 @@ class UfoAnimation(engine.animated_sprite.Animation):
                 ),
                 AnimationSequence(
                     "hit",
-                    1.0,
+                    0.5,
                     [
                         assets.load_image("resources/ufo/ufo_hit_1.png"),
                         assets.load_image("resources/ufo/ufo_hit_2.png"),
@@ -91,6 +91,7 @@ class Ufo(engine.animated_sprite.AnimatedSprite):
 
     def hit(self):
         super().animation("hit", lock_animation=True, callback=lambda: self.reset())
+        self.trajectory.x_mod = -random.uniform(0.1, 1.0)
 
     def reset(self):
         self.trajectory.init()
