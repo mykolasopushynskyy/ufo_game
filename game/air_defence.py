@@ -76,7 +76,10 @@ class AirDefence:
             pygame.draw.line(
                 surface,
                 self.beam_color,
-                (self.laser_x1 + random.uniform(-3, 3), self.laser_y1 + random.uniform(-3, 3)),
+                (
+                    self.laser_x1 + random.uniform(-3, 3),
+                    self.laser_y1 + random.uniform(-3, 3),
+                ),
                 (self.mx + random.uniform(-1, 1), self.my + random.uniform(-2, 2)),
                 3,
             )

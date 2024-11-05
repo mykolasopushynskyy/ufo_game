@@ -157,7 +157,7 @@ if __name__ == "__main__":
         display.blit(mouse, (10, 10))
         fps_text = debug_font.render(f"FPS: {fps:.2f}", True, (50, 200, 50))
         display.blit(fps_text, (10, 46))
-        mouse = debug_font.render(f"Збито НЛО: {ufo_counter}", True, (0xea, 0xa1, 0x2c))
+        mouse = debug_font.render(f"Збито НЛО: {ufo_counter}", True, (0xEA, 0xA1, 0x2C))
         display.blit(mouse, (10, 82))
 
         # Flip the display
