@@ -32,9 +32,7 @@ class AirDefence:
             / ((self.mx - self.cx) ** 2 + (self.my - self.cy) ** 2) ** 0.5
         )
 
-    def update(self, surface, pygame_events, mx, my):
-        # self.animation.update()
-        # super().update()
+    def defend(self, surface, pygame_events, mx, my):
         self.frame_idx += 1
         # draw laser with period
         # air defence cords 725, 655
@@ -78,8 +76,8 @@ class AirDefence:
             pygame.draw.line(
                 surface,
                 self.beam_color,
-                (self.laser_x1, self.laser_y1),
-                (self.mx + random.uniform(-2, 2), self.my + random.uniform(-2, 2)),
+                (self.laser_x1 + random.uniform(-3, 3), self.laser_y1 + random.uniform(-3, 3)),
+                (self.mx + random.uniform(-1, 1), self.my + random.uniform(-2, 2)),
                 3,
             )
             return True
