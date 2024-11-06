@@ -1,38 +1,14 @@
 import pygame
-from array import array
 
 import constants
-import moderngl
 
-from engine import assets
+from engine import open_gl
 from engine.cursors import GameCursors
 from game.air_defence import AirDefence
 from game.background import AnimatedBackGround
 from game.crab import Crab
 from game.ufo import Ufo
 
-# IMPORTANT don't touch or change values
-QUAD_BUFFER = array(
-    "f",
-    [
-        -1.0,
-        1.0,
-        0.0,
-        0.0,  # top left
-        1.0,
-        1.0,
-        1.0,
-        0.0,  # top right
-        -1.0,
-        -1.0,
-        0.0,
-        1.0,  # bot top left
-        1.0,
-        -1.0,
-        1.0,
-        1.0,  # bot top right
-    ],
-)
 
 if __name__ == "__main__":
     # Initialize Pygame
@@ -41,35 +17,12 @@ if __name__ == "__main__":
     pygame.display.set_caption("Атака НЛО")
 
     # Set up the screen
-    pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 3)
-    pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 3)
-    pygame.display.gl_set_attribute(
-        pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE
+    og_game = open_gl.OpenGLGame(
+        width=constants.WIDTH,
+        height=constants.HEIGHT,
+        vertex_shader_path=constants.VERT_SHADER_PATH,
+        fragment_shader=constants.FRAG_SHADER_PATH,
     )
-    pygame.display.gl_set_attribute(pygame.GL_CONTEXT_FORWARD_COMPATIBLE_FLAG, True)
-    screen = pygame.display.set_mode(
-        (constants.WIDTH, constants.HEIGHT), pygame.OPENGL | pygame.DOUBLEBUF
-    )
-    display = pygame.Surface((constants.WIDTH, constants.HEIGHT))
-    print("Screen initiated")
-
-    # Use OpenGL
-    ctx = moderngl.create_context()
-    vert_shader = assets.read_file_as_string(constants.VERT_SHADER_PATH)
-    frag_shader = assets.read_file_as_string(constants.FRAG_SHADER_PATH)
-    program = ctx.program(vertex_shader=vert_shader, fragment_shader=frag_shader)
-    quad_buffer = ctx.buffer(data=QUAD_BUFFER)
-    render_object = ctx.vertex_array(
-        program, [(quad_buffer, "2f 2f", "vert", "texcoord")]
-    )
-
-    def surf_to_texture(surf):
-        texture = ctx.texture(surf.get_size(), 4)
-        texture.filter = (moderngl.NEAREST, moderngl.NEAREST)
-        texture.swizzle = "BGRA"
-        texture.write(surf.get_view("1"))
-        return texture
-
     print("OpenGL initiated")
 
     # Set up the clock
@@ -110,19 +63,15 @@ if __name__ == "__main__":
     frame_idx = 0
     ufo_counter = 0
     while running:
+        og_game.init_texture(tex=0, time=int((frame_idx / (constants.FRAME_RATE / 12))))
 
-        frame_tex = surf_to_texture(display)
-        frame_tex.use(0)
-        program["tex"] = 0
-        program["time"] = int((frame_idx / (constants.FRAME_RATE / 12)))
         frame_idx += 1
-        render_object.render(mode=moderngl.TRIANGLE_STRIP)
 
         # Update the game objects
         all_sprites.update()
 
         # Draw everything on the screen
-        all_sprites.draw(display)
+        all_sprites.draw(og_game.display)
 
         # get all events
         events = pygame.event.get()
@@ -133,7 +82,7 @@ if __name__ == "__main__":
         mx, my = pygame.mouse.get_pos()
 
         # air_defence
-        is_shooting = air_defence.defend(display, events, mx, my)
+        is_shooting = air_defence.defend(og_game.display, events, mx, my)
 
         # get a list of all sprites that are under the mouse cursor
         ufos_shot = len(
@@ -147,22 +96,22 @@ if __name__ == "__main__":
 
         # draw cursor
         cur_image, cx, cy = cursors.get("aim")
-        display.blit(cur_image, (mx + cx, my + cy))
+        og_game.display.blit(cur_image, (mx + cx, my + cy))
 
         # Calculate and print the fps
         fps = clock.get_fps()
 
         # print information
         mouse = game_font.render(f"Mouse: {mx}, {my}", True, (50, 200, 50))
-        display.blit(mouse, (10, 10))
+        og_game.display.blit(mouse, (10, 10))
         fps_text = debug_font.render(f"FPS: {fps:.2f}", True, (50, 200, 50))
-        display.blit(fps_text, (10, 46))
+        og_game.display.blit(fps_text, (10, 46))
         mouse = debug_font.render(f"Збито НЛО: {ufo_counter}", True, (0xEA, 0xA1, 0x2C))
-        display.blit(mouse, (10, 82))
+        og_game.display.blit(mouse, (10, 82))
 
         # Flip the display
         pygame.display.flip()
-        frame_tex.release()
+        og_game.cleanup()
         clock.tick(constants.FRAME_RATE)
 
     # Quit Pygame

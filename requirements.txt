@@ -34,3 +34,4 @@ click~=8.1.7
 MarkupSafe~=2.1.5
 pyglet~=2.0.16
 singleton~=0.1.0
+moderngl~=5.7.0

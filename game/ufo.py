@@ -1,7 +1,6 @@
 import math
 
 import random
-from random import choice
 
 import engine
 
@@ -50,7 +49,9 @@ class UfoTrajectoryAroundCity:
 
         self.choice = random.choice([-1, 1])
         self.x_mod = self.choice * random.uniform(1, 5)
-        self.x = -(self.choice - 1) / 2 * constants.WIDTH - self.choice * random.uniform(self.w, constants.WIDTH)
+        self.x = -(
+            self.choice - 1
+        ) / 2 * constants.WIDTH - self.choice * random.uniform(self.w, constants.WIDTH)
 
         self.l = random.uniform(50, 100)
         self.a = self.l / 2 if random.uniform(0, 100) > 80 else 0
@@ -65,7 +66,9 @@ class UfoTrajectoryAroundCity:
     def reset(self):
         self.choice = random.choice([-1, 1])
         self.x_mod = self.choice * random.uniform(1, 5)
-        self.x = -(self.choice - 1) / 2 * constants.WIDTH - self.choice * random.uniform(self.w, constants.WIDTH)
+        self.x = -(
+            self.choice - 1
+        ) / 2 * constants.WIDTH - self.choice * random.uniform(self.w, constants.WIDTH)
 
         self.l = random.uniform(50, 100)
         self.a = self.l / 2 if random.uniform(0, 100) > 20 else 0
@@ -80,6 +83,7 @@ class UfoTrajectoryAroundCity:
 
     def is_outside(self):
         return self.get_x() < -self.w or self.get_x() > constants.WIDTH + self.w
+
 
 class Ufo(engine.animated_sprite.AnimatedSprite):
     def __init__(self):
