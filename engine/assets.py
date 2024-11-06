@@ -35,3 +35,7 @@ def read_file_as_string(file_path):
     with open(file_path, "r") as file:
         content = file.read()
     return content
+
+
+def get_abs_path(relative_path: str):
+    return os.path.join(constants.PROJECT_PATH, relative_path)

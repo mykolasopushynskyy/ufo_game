@@ -42,13 +42,18 @@ float random_uniform( vec4  v ) { return floatConstruct(hash(floatBitsToUint(v))
 
 float noisy(vec3 rgb) { return rgb.r > 10 && rgb.g > 10 && rgb.b > 10 ? 1.0 : 0.0; }
 
+float is_noisy(vec3 rgb) {
+    return max(rgb.r - 100, 0.0) / (rgb.r - 100) *
+           max(rgb.g - 100, 0.0) / (rgb.g - 100) *
+           max(rgb.b - 100, 0.0) / (rgb.b - 100);
+}
+
 void main() {
     vec2 sample_pos = vec2(uvs.x, uvs.y);
     vec3 rgb = texture(tex, sample_pos).rgb;
 
-    float noise = noisy(rgb);
     float change = random_uniform(vec3(sample_pos, time)) * 2 - 1;
     float amplitude = 0.075;
 
-    f_color = vec4(min(rgb + change * amplitude * rgb , 255.0), 1.0);
+    f_color = vec4(min(rgb + is_noisy(rgb) * change * amplitude * rgb , 255.0), 1.0);
 }

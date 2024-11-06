@@ -1,6 +1,8 @@
 import math
 
 import random
+from random import choice
+
 import engine
 
 import constants
@@ -42,12 +44,17 @@ class UfoAnimation(engine.animated_sprite.Animation):
 
 
 class UfoTrajectoryAroundCity:
-    def __init__(self):
+    def __init__(self, w: int, h: int):
+        self.w = w
+        self.h = h
+
+        self.choice = random.choice([-1, 1])
+        self.x_mod = self.choice * random.uniform(1, 5)
+        self.x = -(self.choice - 1) / 2 * constants.WIDTH - self.choice * random.uniform(self.w, constants.WIDTH)
+
         self.l = random.uniform(50, 100)
-        self.a = self.l / 2
-        self.x = constants.WIDTH + random.uniform(0, constants.WIDTH)
+        self.a = self.l / 2 if random.uniform(0, 100) > 80 else 0
         self.y = random.uniform(0, constants.HEIGHT * 0.40) + 80
-        self.x_mod = -random.uniform(1, 5)
         self.y_mod = math.sin(self.x / self.l) * self.a
 
     def update(self):
@@ -55,12 +62,14 @@ class UfoTrajectoryAroundCity:
         self.y = self.y
         self.y_mod = math.sin(self.x / self.l) * self.a
 
-    def init(self):
-        self.x = constants.WIDTH + random.uniform(0, constants.WIDTH)
-        self.y = random.uniform(0, constants.HEIGHT * 0.40) + 80
+    def reset(self):
+        self.choice = random.choice([-1, 1])
+        self.x_mod = self.choice * random.uniform(1, 5)
+        self.x = -(self.choice - 1) / 2 * constants.WIDTH - self.choice * random.uniform(self.w, constants.WIDTH)
+
         self.l = random.uniform(50, 100)
-        self.a = self.l / 2
-        self.x_mod = -random.uniform(1, 4)
+        self.a = self.l / 2 if random.uniform(0, 100) > 20 else 0
+        self.y = random.uniform(0, constants.HEIGHT * 0.40) + 80
         self.y_mod = math.sin(self.x / self.l) * self.a
 
     def get_x(self):
@@ -69,13 +78,15 @@ class UfoTrajectoryAroundCity:
     def get_y(self):
         return self.y + self.y_mod
 
+    def is_outside(self):
+        return self.get_x() < -self.w or self.get_x() > constants.WIDTH + self.w
 
 class Ufo(engine.animated_sprite.AnimatedSprite):
     def __init__(self):
         super().__init__(UfoAnimation())
 
-        self.trajectory = UfoTrajectoryAroundCity()
         self.rect = self.image.get_rect()
+        self.trajectory = UfoTrajectoryAroundCity(self.rect.w, self.rect.h)
         self.rect.x = self.trajectory.get_x()
         self.rect.y = self.trajectory.get_y()
         self.is_hit = False
@@ -87,7 +98,7 @@ class Ufo(engine.animated_sprite.AnimatedSprite):
         self.rect.x = self.trajectory.get_x()
         self.rect.y = self.trajectory.get_y()
 
-        if self.rect.x < -self.rect.width:
+        if self.trajectory.is_outside():
             self.reset()
 
     def hit(self):
@@ -97,7 +108,7 @@ class Ufo(engine.animated_sprite.AnimatedSprite):
             self.is_hit = True
 
     def reset(self):
-        self.trajectory.init()
+        self.trajectory.reset()
         self.is_hit = False
         super().animation("idle", "idle")
         self.rect = self.image.get_rect()
