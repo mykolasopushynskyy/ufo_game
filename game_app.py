@@ -95,7 +95,10 @@ if __name__ == "__main__":
         ufo_counter += ufos_shot
 
         # draw cursor
-        cur_image, cx, cy = cursors.get("aim")
+        if my < air_defence.cy + air_defence.r:
+            cur_image, cx, cy = cursors.get("aim")
+        else:
+            cur_image, cx, cy = cursors.get("arrow")
         og_game.display.blit(cur_image, (mx + cx, my + cy))
 
         # Calculate and print the fps
