@@ -1,7 +1,8 @@
 import math
 import random
-
 import pygame
+
+from engine import assets
 
 
 class AirDefence:
@@ -31,6 +32,8 @@ class AirDefence:
             * (self.my - self.cy)
             / ((self.mx - self.cx) ** 2 + (self.my - self.cy) ** 2) ** 0.5
         )
+        self.piu = assets.load_sound("resources/sounds/piuuu.wav")
+        self.piu.set_volume(0.25)
 
     def defend(self, surface, pygame_events, mx, my):
         self.frame_idx += 1
@@ -83,6 +86,7 @@ class AirDefence:
                 (self.mx + random.uniform(-1, 1), self.my + random.uniform(-2, 2)),
                 3,
             )
+            self.piu.play()
             return True
 
         return False

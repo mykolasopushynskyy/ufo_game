@@ -25,7 +25,7 @@ def load_sound(sound: str):
         return _sounds[sound]
 
     sound = os.path.join(constants.PROJECT_PATH, sound)
-    loaded_sound = pygame.image.load(sound).convert_alpha()
+    loaded_sound = pygame.mixer.Sound(sound)
     _sounds[sound] = loaded_sound
     return loaded_sound
 

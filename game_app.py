@@ -114,8 +114,8 @@ if __name__ == "__main__":
 
         # Flip the display
         pygame.display.flip()
-        og_game.cleanup()
         clock.tick(constants.FRAME_RATE)
+        og_game.cleanup()
 
     # Quit Pygame
     pygame.quit()

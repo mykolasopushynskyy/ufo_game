@@ -14,4 +14,4 @@ UFOS_NUMBER = 20
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 VERT_SHADER_PATH = "engine/shaders/vert_shader.glsl"
-FRAG_SHADER_PATH = "engine/shaders/frag_shader.glsl"
+FRAG_SHADER_PATH = "engine/shaders/video_noise.glsl"
