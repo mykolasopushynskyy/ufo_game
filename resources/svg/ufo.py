@@ -1,6 +1,6 @@
-import engine.assets as assets
-
 import pyvips
+
+import engine.assets as assets
 
 palette = [
     (0x3D, 0x35, 0x3E),

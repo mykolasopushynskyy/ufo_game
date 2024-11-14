@@ -1,7 +1,7 @@
 from array import array
 
-import pygame
 import moderngl
+import pygame
 
 from engine import assets
 

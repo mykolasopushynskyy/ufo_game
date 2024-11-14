@@ -1,5 +1,6 @@
-import pygame
 import random
+
+import pygame
 
 import constants
 from constants import FRAME_RATE

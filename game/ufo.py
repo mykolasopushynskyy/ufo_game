@@ -1,10 +1,8 @@
 import math
-
 import random
 
-import engine
-
 import constants
+import engine
 from engine import assets
 from engine.animated_sprite import AnimationSequence
 

@@ -1,5 +1,7 @@
 import os
+
 import pygame
+
 import constants
 
 _images = {}

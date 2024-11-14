@@ -1,7 +1,7 @@
 import pygame
+
 import constants
 import engine
-
 from engine import assets
 from engine.animated_sprite import AnimationSequence
 

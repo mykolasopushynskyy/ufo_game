@@ -1,14 +1,12 @@
 import pygame
 
 import constants
-
 from engine import open_gl
 from engine.cursors import GameCursors
 from game.air_defence import AirDefence
 from game.background import AnimatedBackGround
 from game.crab import Crab
 from game.ufo import Ufo
-
 
 if __name__ == "__main__":
     # Initialize Pygame

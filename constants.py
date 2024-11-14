@@ -8,7 +8,7 @@ HEIGHT = 900
 FRAME_RATE = 60
 
 # gameplay
-UFOS_NUMBER = 20
+UFOS_NUMBER = 10
 
 # assets
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
